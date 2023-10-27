@@ -18,17 +18,14 @@ function App() {
     setOpenModal(true);
   };
 
-  const handleSaveUser = async (editedUser) => {
-    try {
-      await axios.put(
-        `http://localhost:5000/api/people/${editedUser._id}`,
-        editedUser
-      );
+  const handleSaveUser = (editedUser) => {
+    const updatedItems = items.map((item) =>
+      item._id === editedUser._id ? editedUser : item
+    );
 
-      setOpenModal(false);
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    }
+    setItems(updatedItems);
+
+    setOpenModal(false);
   };
 
   const handleDeleteUser = async (userId) => {
@@ -107,8 +104,8 @@ function App() {
 
       <UserNew
         isOpen={openModal}
-        onCancel={handleCancel} // make sure handleCancel sets openModal to false
-        onSave={handleSaveAndCloseModal} // this is the new function that closes the modal and refreshes the list
+        onCancel={handleCancel}
+        onSave={handleSaveAndCloseModal}
       />
     </div>
   );
